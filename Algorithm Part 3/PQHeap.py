@@ -26,7 +26,7 @@ def insert(A, e):
     i = len(A) - 1
 
     #Switches parent and child if child is lower value
-    while i > 0 and A[Parent(i)] > A[i]:
+    while i > 0 and A[Parent(i)].key > A[i].key:
         A[i], A[Parent(i)] = A[Parent(i)], A[i]
         i = Parent(i)
 
