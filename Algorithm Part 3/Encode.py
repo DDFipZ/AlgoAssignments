@@ -6,58 +6,44 @@ import PQHeap
 # outfile = open(sys.argv[2], 'wb')
 def HUFFMAN(C):
     n = len(C)
-    Q = C
+    Q = []
+    
+    for i in range(n):
+
+        e1 = Element(C[i].key, [i])
+        PQHeap.insert(Q, e1)
 
     #Steps to build the tree
-    for i in range(n):
+    for i in range(n - 1):
         x = PQHeap.extractMin(Q)
         y = PQHeap.extractMin(Q)
         freq = x.key + y.key
-        element = Element(freq, [x, y])
+        element = Element(freq, [x.data, y.data])
         PQHeap.insert(Q, element)
 
-
-
-
-
-
-
-    #     huffman_tree = []
-    #     first_element = Element(C[i], [i])
-    #     PQHeap.insert(huffman_tree, first_element)
-
-    # while len(huffman_tree) > 1:
-    #     firstmin = PQHeap.extractMin(huffman_tree)
-    #     secondmin = PQHeap.extractMin(huffman_tree)
-        
-    #     second_element = Element([firstmin.key, secondmin.key], firstmin.data + secondmin.data)
-    #     PQHeap.insert(huffman_tree, second_element)
-
-    return PQHeap.extractMin(Q)
+    return Q
 
 
 def codeList(asciiList):
     codeList = []
     for n in range(len(asciiList)): codeList.append(0)
     huffmanTree = HUFFMAN(asciiList)
-    OrderedTraversal(huffmanTree[0].data, "", codeList)
+    string = ""
+    OrderedTraversal(huffmanTree[0].data, string, codeList)
+
+    return codeList
 
 def OrderedTraversal(byte, bitstring, codeList):
     #recursive method used for cycling through the given list's values inorder 
     if len(byte) > 1: 
-        OrderedTraversal(x[0], bitstring + "0", codeList)
-        OrderedTraversal(x[0], bitstring + "1", codeList)
+        OrderedTraversal(byte[0], bitstring + "0", codeList)
+        OrderedTraversal(byte[1], bitstring + "1", codeList)
     elif len(byte) == 1 and len(bitstring) != 0:
-        codeList[x[0]] = bitstring
+        codeList[byte[0]] = bitstring
 
 
 if __name__ == "__main__":
     infile = open(sys.argv[1], 'rb')
-    bitstreamin = bitIO.BitReader(infile)
-
-    # outfile = open(sys.argv[2], "wb")
-    # bitstreamout = bitIO.BitWriter(outfile)
-
     asciiList = []
     #Sets up the asciiList with 0 frequency on all elements
     for x in range(256): asciiList.append(Element(0, x))
@@ -75,5 +61,18 @@ if __name__ == "__main__":
     codeList = codeList(asciiList)
     print(codeList)
 
+    newinfile = open(sys.argv[1], "rb")
+    outfile = open(sys.argv[2], "wb")
+    bitstreamout = bitIO.BitWriter(outfile)
+
+    for i in range(len(asciiList)): bitstreamout.writeint32bits(asciiList[i].key)
+
+    byte = newinfile.read(1)
+    while byte:
+        bits = codeList[int.from_bytes(byte, "little")]
+        for bit in bits: bitstreamout.writebit(int(bit))
+        byte = newinfile.read(1)
+    bitstreamout.close()
+    print("Done")
     
 
