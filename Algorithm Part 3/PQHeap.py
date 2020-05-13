@@ -5,6 +5,7 @@ Jakob Schledermann Winkel   jwink18
 Alban Dalifi                aldal18
 """
 import math
+import Element
 
 
 def Parent(i):
@@ -20,8 +21,8 @@ def Right(i):
 
 
 #Inserts key into A
-def insert(A, key):
-    A.append(key)
+def insert(A, e):
+    A.append(e)
     i = len(A) - 1
 
     #Switches parent and child if child is lower value

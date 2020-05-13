@@ -48,8 +48,8 @@ while True:
 # Write two bits MORE to output file. This will be padded by the library with
 # six 0 bits when flushing the output stream, hence give the character '@'
 # (which in ASCII has pattern 01000000).
-bitstreamout.writebit(0)
 bitstreamout.writebit(1)
+bitstreamout.writebit(0)
 
 # Flush the BitWriter (automatically padding output with 0-bits until a full
 # number of bytes (i.e, a multiple of eight bits) have been written, as

@@ -27,11 +27,9 @@ def Insert(T, k):
 #Searches for k in T and returns a boolean
 def Search(T, k):
     def TreeSearch(x, k):
-        if x == None:
-            return False
-        if k == x.key:
-            #It has found the key in the given list
-            return True
+        if x == None: return False
+        #It has found the key in the given list
+        if k == x.key: return True
         if k < x.key:
             #Value is less than x's key, so it goes to the left
             return TreeSearch(x.left, k)
