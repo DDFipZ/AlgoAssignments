@@ -3,13 +3,11 @@ import bitIO
 from Element import Element
 import PQHeap
 
-# outfile = open(sys.argv[2], 'wb')
 def HUFFMAN(C):
     n = len(C)
     Q = []
     
     for i in range(n):
-
         e1 = Element(C[i].key, [i])
         PQHeap.insert(Q, e1)
 
@@ -54,25 +52,27 @@ if __name__ == "__main__":
         asciiList[ord(byte)].key += 1
         byte = infile.read(1)
     
-    index = 0
-    for freq in asciiList:
-        index += 1 
-        print("index: " + str(index) + " frequency: " + str(freq.key))
+    # index = 0
+    # for freq in asciiList:
+    #     index += 1 
+    #     print("index: " + str(index) + " frequency: " + str(freq.key))
     codeList = codeList(asciiList)
-    print(codeList)
+    # print(codeList)
 
     newinfile = open(sys.argv[1], "rb")
     outfile = open(sys.argv[2], "wb")
     bitstreamout = bitIO.BitWriter(outfile)
 
+    #Writes frequencies
     for i in range(len(asciiList)): bitstreamout.writeint32bits(asciiList[i].key)
 
+    #Writes the bits from the codeList
     byte = newinfile.read(1)
     while byte:
         bits = codeList[int.from_bytes(byte, "little")]
         for bit in bits: bitstreamout.writebit(int(bit))
         byte = newinfile.read(1)
+
     bitstreamout.close()
     print("Done")
     
-
