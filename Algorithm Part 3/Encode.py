@@ -7,11 +7,12 @@ def HUFFMAN(C):
     n = len(C)
     Q = []
     
+    #inserts elements into Q
     for i in range(n):
         e1 = Element(C[i].key, [i])
         PQHeap.insert(Q, e1)
 
-    #Steps to build the tree
+    #Steps to build the tree from pseudocode
     for i in range(n - 1):
         x = PQHeap.extractMin(Q)
         y = PQHeap.extractMin(Q)
@@ -22,15 +23,18 @@ def HUFFMAN(C):
     return Q
 
 
+#Creates the codeList with the Huffman algorithm and in order
 def codeList(asciiList):
     codeList = []
     for n in range(len(asciiList)): codeList.append(0)
     huffmanTree = HUFFMAN(asciiList)
     string = ""
+    print(huffmanTree[0].data[0])
     OrderedTraversal(huffmanTree[0].data, string, codeList)
 
     return codeList
 
+#Method used for ordering the codeList
 def OrderedTraversal(byte, bitstring, codeList):
     #recursive method used for cycling through the given list's values inorder 
     if len(byte) > 1: 
@@ -52,12 +56,15 @@ if __name__ == "__main__":
         asciiList[ord(byte)].key += 1
         byte = infile.read(1)
     
-    # index = 0
-    # for freq in asciiList:
-    #     index += 1 
-    #     print("index: " + str(index) + " frequency: " + str(freq.key))
+    #test(delete this)
+    index = 0
+    for freq in asciiList:
+        index += 1 
+        print("index: " + str(index) + " frequency: " + str(freq.key))
+
+    #sets ordered codeList
     codeList = codeList(asciiList)
-    # print(codeList)
+    print(codeList)
 
     newinfile = open(sys.argv[1], "rb")
     outfile = open(sys.argv[2], "wb")

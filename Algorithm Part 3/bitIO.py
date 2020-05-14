@@ -96,7 +96,6 @@ class BitReader(object):
             self.read = len(a) # remember number of bytes read (0 => EOF)
         # extract the (bcount-1)'th bit [the next bit] in the accumulator:
         rv = (self.accumulator & (1 << self.bcount-1)) >> self.bcount-1
-        print(rv)
         self.bcount -= 1 # move to next bit in accumulator
         return rv
  
