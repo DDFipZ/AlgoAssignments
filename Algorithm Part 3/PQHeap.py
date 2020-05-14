@@ -20,7 +20,7 @@ def Right(i):
     return (2 * i + 2 )
 
 
-#Inserts key into A
+#Inserts element into A
 def insert(A, e):
     A.append(e)
     i = len(A) - 1

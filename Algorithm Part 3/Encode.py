@@ -1,3 +1,9 @@
+"""
+Navn                        SDU Brugernavn
+Marcus Møller Pedersen      marpe18
+Jakob Schledermann Winkel   jwink18
+Alban Dalifi                aldal18
+"""
 import sys
 import bitIO
 from Element import Element
@@ -29,7 +35,6 @@ def codeList(asciiList):
     for n in range(len(asciiList)): codeList.append(0)
     huffmanTree = HUFFMAN(asciiList)
     string = ""
-    print(huffmanTree[0].data[0])
     OrderedTraversal(huffmanTree[0].data, string, codeList)
 
     return codeList
@@ -55,16 +60,9 @@ if __name__ == "__main__":
     while byte:
         asciiList[ord(byte)].key += 1
         byte = infile.read(1)
-    
-    #test(delete this)
-    index = 0
-    for freq in asciiList:
-        index += 1 
-        print("index: " + str(index) + " frequency: " + str(freq.key))
 
     #sets ordered codeList
     codeList = codeList(asciiList)
-    print(codeList)
 
     newinfile = open(sys.argv[1], "rb")
     outfile = open(sys.argv[2], "wb")
